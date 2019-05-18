@@ -2,7 +2,7 @@
 /**
  * TODO get IP [v]
  * TODO listen to command line [v]
- * TODO read file
+ * TODO read file [v]
  * TODO send file
  * 
  * class Router
@@ -34,8 +34,6 @@ server.on('listening', () => {
 });
 
 server.bind(41234, '192.168.0.103');
-
-//
 
 prompt.start()
 
@@ -88,12 +86,11 @@ if(type === null || port === null){
     console.log('Informe o tipo (--type) e a porta (--port)')
 }else{
     if(type === 'router'){
-        const Router = require('./Router')
-        const r = new Router()
-        r.start(host, port)
+        const start = require('./Router')
+        start(host, port)
     }else if(type === 'client'){
-        const Client = require('./Client')
-        const c = new Client()
-        c.start(host, port)
+        const {start, listenCommandLine} = require('./Client')
+        let server = start(host, port)
+        setTimeout( listenCommandLine.bind(null, server), 1000)
     }
 }
