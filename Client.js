@@ -2,6 +2,7 @@ const prompts = require('prompts');
 const read = require('./Reader')
 
 const receive = (server, message, origin) => {
+    console.log("\n")
     console.log(`> Receive message from ${origin}: `)
     console.log(message.toString())
     console.log("\n")
