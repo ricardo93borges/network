@@ -1,11 +1,12 @@
 const prompts = require('prompts');
-const read = require('./Reader')
+const {read, write} = require('./Reader')
 
 const receive = (server, message, origin) => {
     console.log("\n")
     console.log(`> Receive message from ${origin}: `)
     console.log(message.toString())
     console.log("\n")
+    write(message.toString())
     setTimeout( listenCommandLine.bind(null, server), 1000)
 }
     
