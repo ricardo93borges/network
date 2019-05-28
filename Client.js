@@ -9,10 +9,18 @@ const receive = (server, message, origin) => {
     setTimeout( listenCommandLine.bind(null, server), 1000)
 }
     
-const send = (server, message) => {
+const send = (server, message, destination) => {
     const address = server.address();
-    console.log(`> Sending message to ${address.address}:6000`)
-    server.send(message, 6000, address.address)
+    let [destHost, destPort] = destination.split(':')
+
+    if(destHost !== address.address){
+        console.log(`> Sending message to ${address.address}:6000`)
+        server.send(message, 6000, address.address)
+    }else{
+        console.log(`> Sending message to ${address.address}:${destPort}`)
+        server.send(message, destPort, address.address)
+    }
+
     setTimeout( listenCommandLine.bind(null, server), 1000)
 }
 
@@ -28,7 +36,7 @@ const listenCommandLine = async (server) => {
     ])
     let message = buildMessage(response.filepath, response.destination)
     //let message = buildMessage('file.txt', '192.168.0.103:6001')
-    send(server, message)
+    send(server, message, response.destination)
 }
 
 const start = (address, port) => {
